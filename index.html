@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <title>StockMyProducts - Accueil</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
   <h1>StockMyProducts</h1>
@@ -19,25 +21,44 @@
 
     <label>
       <input type="checkbox" id="lowStockOnly">
-      Stock < 5
-    </label>
+      Stock < 5 </label>
 
-    <label>
-      Trier :
-      <select id="sortBy">
-        <option value="none">Aucun</option>
-        <option value="name-asc">Nom A→Z</option>
-        <option value="name-desc">Nom Z→A</option>
-        <option value="price-asc">Prix ⬆️</option>
-        <option value="price-desc">Prix ⬇️ </option>
-        <option value="quantity-asc">Quantité ⬆️</option>
-        <option value="quantity-desc">Quantité ⬇️</option>
-      </select>
-    </label>
+        <label>
+          Trier :
+          <select id="sortBy">
+            <option value="none">Aucun</option>
+            <option value="name-asc">Nom A→Z</option>
+            <option value="name-desc">Nom Z→A</option>
+            <option value="price-asc">Prix ⬆️</option>
+            <option value="price-desc">Prix ⬇️ </option>
+            <option value="quantity-asc">Quantité ⬆️</option>
+            <option value="quantity-desc">Quantité ⬇️</option>
+          </select>
+        </label>
   </div>
 
+  <hr>
+  <h2>➕ Ajouter un nouveau produit</h2>
+
+  <form id="addProductForm">
+    <label>Nom du produit : <input type="text" id="productName" required></label><br><br>
+    <label>Description : <input type="text" id="productDescription" required></label><br><br>
+    <label>Prix (€) : <input type="number" id="productPrice" step="0.01" min="0" required></label><br><br>
+    <label>Quantité initiale : <input type="number" id="productQuantity" min="0" required></label><br><br>
+
+    <label>
+      Catégorie :
+      <select id="productCategory" required>
+      </select>
+    </label><br><br>
+
+    <button type="submit">Ajouter le produit</button>
+  </form>
+
+  <hr>
   <div id="productsList"></div>
 
   <script src="js/app.js"></script>
 </body>
+
 </html>
