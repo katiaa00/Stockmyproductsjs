@@ -56,6 +56,40 @@
   </form>
 
   <hr>
+
+  <h2>✏️ Modifier un produit</h2>
+
+  <form id="editProductForm" style="display:none;">
+    <input type="hidden" id="editProductId">
+
+    <label>Nom :
+      <input type="text" id="editProductName" required>
+    </label><br><br>
+
+    <label>Description :
+      <input type="text" id="editProductDescription" required>
+    </label><br><br>
+
+    <label>Prix (€) :
+      <input type="number" id="editProductPrice" step="0.01" min="0" required>
+    </label><br><br>
+
+    <label>Quantité :
+      <input type="number" id="editProductQuantity" min="0" required>
+    </label><br><br>
+
+    <label>
+      Catégorie :
+      <select id="editProductCategory" required></select>
+    </label><br><br>
+
+    <button type="submit">Enregistrer les modifications</button>
+    <button type="button" onclick="cancelEdit()">Annuler</button>
+  </form>
+
+  <hr>
+
+
   <div id="productsList"></div>
 
   <script src="js/app.js"></script>

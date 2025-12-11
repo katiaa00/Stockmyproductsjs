@@ -10,15 +10,18 @@ let products = [
   { id: 3, name: "APM Monaco", description: "yacht club", price: 295.00, categoryId: 3, quantity: 7 }
 ];
 
-let stockMovements = []; 
+let stockMovements = [];
 
-let nextProductId = products.length > 0 ? products[products.length - 1].id + 1 : 1; 
+let nextProductId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
 
 
+// Remplir n'importe quel <select> de catégories
 function populateCategories(selectId) {
   const select = document.getElementById(selectId);
-  select.innerHTML = selectId === "filterCategory" 
-    ? '<option value="all">Toutes</option>' 
+
+  // Si c’est le filtre, ajouter “Toutes”
+  select.innerHTML = selectId === "filterCategory"
+    ? '<option value="all">Toutes</option>'
     : '';
 
   categories.forEach(cat => {
@@ -29,6 +32,8 @@ function populateCategories(selectId) {
   });
 }
 
+
+// Ajouter un produit
 function addProduct(event) {
   event.preventDefault();
 
@@ -50,11 +55,12 @@ function addProduct(event) {
   products.push(newProduct);
 
   displayProducts();
-
   document.getElementById("addProductForm").reset();
   alert(`Le produit "${name}" a été ajouté !`);
 }
 
+
+// SUPPRIMER un produit
 function deleteProduct(id) {
   if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
     products = products.filter(p => p.id !== id);
@@ -62,11 +68,52 @@ function deleteProduct(id) {
   }
 }
 
+
+// Ouvrir le formulaire de modification
 function handleEdit(id) {
-    alert(`Fonction Modifier pour l'ID ${id} à implémenter dans la prochaine étape.`);
+  const product = products.find(p => p.id === id);
+
+  document.getElementById("editProductId").value = product.id;
+  document.getElementById("editProductName").value = product.name;
+  document.getElementById("editProductDescription").value = product.description;
+  document.getElementById("editProductPrice").value = product.price;
+  document.getElementById("editProductQuantity").value = product.quantity;
+  document.getElementById("editProductCategory").value = product.categoryId;
+
+  document.getElementById("editProductForm").style.display = "block";
 }
 
 
+// Enregistrer les modifications
+document.getElementById("editProductForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const id = parseInt(document.getElementById("editProductId").value);
+  const product = products.find(p => p.id === id);
+
+  product.name = document.getElementById("editProductName").value;
+  product.description = document.getElementById("editProductDescription").value;
+  product.price = parseFloat(document.getElementById("editProductPrice").value);
+  product.quantity = parseInt(document.getElementById("editProductQuantity").value);
+  product.categoryId = parseInt(document.getElementById("editProductCategory").value);
+
+  displayProducts();
+
+  document.getElementById("editProductForm").reset();
+  document.getElementById("editProductForm").style.display = "none";
+
+  alert("Produit modifié avec succès !");
+});
+
+
+// Annuler modification
+function cancelEdit() {
+  document.getElementById("editProductForm").reset();
+  document.getElementById("editProductForm").style.display = "none";
+}
+
+
+// AFFICHAGE PRODUITS
 function displayProducts() {
   const container = document.getElementById("productsList");
 
@@ -74,8 +121,8 @@ function displayProducts() {
   const lowStockOnly = document.getElementById("lowStockOnly").checked;
   const sortBy = document.getElementById("sortBy").value;
 
-  let list = [...products]; 
-  
+  let list = [...products];
+
   if (filterCat !== "all") {
     list = list.filter(p => String(p.categoryId) === filterCat);
   }
@@ -88,9 +135,7 @@ function displayProducts() {
     const [field, direction] = sortBy.split("-");
     list.sort((a, b) => {
       if (field === "name") {
-        return direction === "asc"
-          ? a.name.localeCompare(b.name)
-          : b.name.localeCompare(a.name);
+        return direction === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
       }
       if (field === "price") {
         return direction === "asc" ? a.price - b.price : b.price - a.price;
@@ -123,8 +168,8 @@ function displayProducts() {
         <td class="${low}">${p.quantity}</td>
         <td>${p.price.toFixed(2)} €</td>
         <td>
-            <button onclick="handleEdit(${p.id})">Modifier</button>
-            <button onclick="deleteProduct(${p.id})">Supprimer</button>
+          <button onclick="handleEdit(${p.id})">Modifier</button>
+          <button onclick="deleteProduct(${p.id})">Supprimer</button>
         </td>
       </tr>
     `;
@@ -134,8 +179,11 @@ function displayProducts() {
   container.innerHTML = html;
 }
 
+
+// INITIALISATION
 populateCategories("filterCategory");
-populateCategories("productCategory"); 
+populateCategories("productCategory");
+populateCategories("editProductCategory");
 
 displayProducts();
 
