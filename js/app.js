@@ -1,20 +1,20 @@
 
 // Catégories
 let categories = [
-  { id: 1, name: "Électronique" },
-  { id: 2, name: "Vêtements" },
-  { id: 3, name: "Maison" }
+  { id: 1, name: "Bracelets" },
+  { id: 2, name: "Bagues" },
+  { id: 3, name: "Colliers" }
 ];
 
 // Produits
 let products = [
-  { id: 1, name: "Casque audio", description: "Bluetooth", price: 59.99, categoryId: 1, quantity: 10 },
-  { id: 2, name: "T-shirt", description: "Coton", price: 12.50, categoryId: 2, quantity: 3 },
-  { id: 3, name: "Lampe", description: "LED", price: 22.00, categoryId: 3, quantity: 7 }
+  { id: 1, name: "Swarovski", description: "Bracelet-jonc Mesmera", price: 159.99, categoryId: 1, quantity: 10 },
+  { id: 2, name: "Histoire d'Or", description: "Bague Solitaire Mireilla ", price: 39.99, categoryId: 2, quantity: 3 },
+  { id: 3, name: "APM Monaco", description: "yacht club", price: 295.00, categoryId: 3, quantity: 7 }
 ];
 
 
-// === Remplir le filtre catégorie ===
+// === Remplir le filtre  ===
 function populateCategories() {
   const select = document.getElementById("filterCategory");
   categories.forEach(cat => {
@@ -30,19 +30,18 @@ function populateCategories() {
 function displayProducts() {
   const container = document.getElementById("productsList");
 
-  // Récupérer valeurs des filtres
   const filterCat = document.getElementById("filterCategory").value;
   const lowStockOnly = document.getElementById("lowStockOnly").checked;
   const sortBy = document.getElementById("sortBy").value;
 
-  let list = [...products]; // copie
+  let list = [...products]; 
 
-  // Filtrer par catégorie
+  
   if (filterCat !== "all") {
     list = list.filter(p => String(p.categoryId) === filterCat);
   }
 
-  // Filtrer stock faible
+  
   if (lowStockOnly) {
     list = list.filter(p => p.quantity < 5);
   }
@@ -65,7 +64,6 @@ function displayProducts() {
     });
   }
 
-  // Construire le tableau HTML
   let html = "<table>";
   html += `
     <tr>
@@ -98,7 +96,7 @@ function displayProducts() {
 populateCategories();
 displayProducts();
 
-// Quand on change un filtre → on recharge la liste
 document.getElementById("filterCategory").addEventListener("change", displayProducts);
 document.getElementById("lowStockOnly").addEventListener("change", displayProducts);
 document.getElementById("sortBy").addEventListener("change", displayProducts);
+
