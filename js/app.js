@@ -1,4 +1,3 @@
-// --- Données Globales ---
 let categories = [
   { id: 1, name: "Bracelets" },
   { id: 2, name: "Bagues" },
@@ -16,9 +15,6 @@ let nextProductId = products.length > 0 ? products[products.length - 1].id + 1 :
 let nextMovementId = 1; 
 
 
-// --- Fonctions Utilitaires et Gestion des Mouvements (Point 4) ---
-
-// Remplir n'importe quel <select> de catégories (Point 1, 2, 3)
 function populateCategories(selectId) {
   const select = document.getElementById(selectId);
   select.innerHTML = selectId === "filterCategory"
@@ -33,20 +29,17 @@ function populateCategories(selectId) {
   });
 }
 
-// Gérer la création d'un mouvement de stock (Point 4, 6)
 function addStockMovement(productId, type, quantity, reason) {
   const newMovement = {
     id: nextMovementId++,
     productId: productId,
-    type: type, // "IN" ou "OUT"
+    type: type, 
     quantity: quantity,
     date: new Date().toLocaleString(),
     reason: reason
   };
   stockMovements.push(newMovement);
 }
-
-// Mise à jour de la quantité et création d'un mouvement (Point 4)
 function updateStockQuantity(id, delta) {
   const product = products.find(p => p.id === id);
   if (!product) return;
@@ -62,20 +55,14 @@ function updateStockQuantity(id, delta) {
   let reason = prompt(`Entrez la raison du mouvement (${type} ${quantityChange}) pour ${product.name} :`, type === "IN" ? "Livraison" : "Vente");
   
   if (reason) {
-      // Mettre à jour la quantité
       product.quantity += delta; 
       
-      // Créer l'objet StockMovement
       addStockMovement(id, type, quantityChange, reason);
       
-      // Mise à jour de l'affichage
       displayProducts();
   }
 }
 
-// --- Fonctions CRUD Produits (Point 2 & 3) ---
-
-// Ajouter un produit (Point 2)
 function addProduct(event) {
   event.preventDefault();
 
@@ -96,7 +83,6 @@ function addProduct(event) {
 
   products.push(newProduct);
   
-  // Mouvement de stock initial
   addStockMovement(newProduct.id, "IN", quantity, "Stock initial (Ajout produit)"); 
 
   displayProducts();
@@ -106,7 +92,6 @@ function addProduct(event) {
 }
 
 
-// SUPPRIMER un produit (Point 3)
 function deleteProduct(id) {
   if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
     products = products.filter(p => p.id !== id);
@@ -115,7 +100,6 @@ function deleteProduct(id) {
 }
 
 
-// Ouvrir le formulaire de modification (Point 3)
 function handleEdit(id) {
   const product = products.find(p => p.id === id);
   
@@ -132,13 +116,11 @@ function handleEdit(id) {
 }
 
 
-// Annuler modification (Point 3)
 function cancelEdit() {
   document.getElementById("editProductForm").reset();
   document.getElementById("editProductForm").style.display = "none";
 }
 
-// Écouteur pour Enregistrer les modifications (Point 3)
 document.getElementById("editProductForm").addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -157,7 +139,6 @@ document.getElementById("editProductForm").addEventListener("submit", function (
   
   product.quantity = newQuantity;
 
-  // Si la quantité a changé, enregistrer un mouvement (Point 4)
   if (delta !== 0) {
       const type = delta > 0 ? "IN" : "OUT";
       addStockMovement(id, type, Math.abs(delta), `Modification manuelle (Formulaire) : ${oldQuantity} -> ${newQuantity}`);
@@ -172,9 +153,6 @@ document.getElementById("editProductForm").addEventListener("submit", function (
 });
 
 
-// --- Fonctions d'Affichage (Point 1 & 6) ---
-
-// AFFICHAGE HISTORIQUE (Point 6)
 function displayStockHistory() {
   const container = document.getElementById("stockHistoryList");
   
@@ -214,7 +192,6 @@ function displayStockHistory() {
 }
 
 
-// AFFICHAGE PRODUITS (Point 1, 3, 4)
 function displayProducts() {
   const container = document.getElementById("productsList");
 
@@ -224,7 +201,6 @@ function displayProducts() {
 
   let list = [...products];
 
-  // Filtrage
   if (filterCat !== "all") {
     list = list.filter(p => String(p.categoryId) === filterCat);
   }
@@ -232,7 +208,6 @@ function displayProducts() {
     list = list.filter(p => p.quantity < 5); 
   }
 
-  // Tri
   if (sortBy !== "none") {
     const [field, direction] = sortBy.split("-");
     list.sort((a, b) => {
@@ -283,26 +258,16 @@ function displayProducts() {
 
   html += "</table>";
   container.innerHTML = html;
-  
-  // Mise à jour de l'historique après chaque action sur les produits
   displayStockHistory(); 
 }
 
-
-// --- Initialisation et Événements ---
-
-// Remplissage des menus déroulants
 populateCategories("filterCategory");
 populateCategories("productCategory");
-populateCategories("editProductCategory"); // Rempli dès le départ pour la modification
+populateCategories("editProductCategory"); 
 
-// Affichage initial des produits et de l'historique
 displayProducts();
 
-// Événements pour le filtrage et le tri
 document.getElementById("filterCategory").addEventListener("change", displayProducts);
 document.getElementById("lowStockOnly").addEventListener("change", displayProducts);
 document.getElementById("sortBy").addEventListener("change", displayProducts);
-
-// Événement pour l'ajout de produit
 document.getElementById("addProductForm").addEventListener("submit", addProduct);
