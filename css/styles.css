@@ -1,0 +1,25 @@
+body {
+  font-family: Arial;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+#filters {
+  margin-bottom: 20px;
+}
+
+#productsList table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+#productsList th, #productsList td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.low-stock {
+  color: red;
+  font-weight: bold;
+}

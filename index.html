@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>StockMyProducts - Accueil</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <h1>StockMyProducts</h1>
+
+  <div id="filters">
+    <label>
+      Catégorie :
+      <select id="filterCategory">
+        <option value="all">Toutes</option>
+      </select>
+    </label>
+
+    <label>
+      <input type="checkbox" id="lowStockOnly">
+      Stock < 5
+    </label>
+
+    <label>
+      Trier :
+      <select id="sortBy">
+        <option value="none">Aucun</option>
+        <option value="name-asc">Nom A→Z</option>
+        <option value="name-desc">Nom Z→A</option>
+        <option value="price-asc">Prix ↑</option>
+        <option value="price-desc">Prix ↓</option>
+        <option value="quantity-asc">Quantité ↑</option>
+        <option value="quantity-desc">Quantité ↓</option>
+      </select>
+    </label>
+  </div>
+
+  <div id="productsList"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
